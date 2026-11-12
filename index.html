@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>MOSPHATE</title>
+<meta name="description" content="MOSPHATE. Beyond the pixels. An iconic digital inspiration, reimagined as a physical creation.">
+<meta name="theme-color" content="#050505">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Grotesk:wght@400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<canvas id="world" aria-hidden="true"></canvas>
+<div class="scan" aria-hidden="true"></div>
+
+<div id="boot" aria-hidden="true">
+  <div class="boot-in">
+    <div>INITIALIZING MOSPHATE_OS // <b id="bootPct">00%</b></div>
+    <div class="boot-bar"><i id="bootBar"></i></div>
+    <div id="bootLog" style="margin-top:12px;color:var(--dim)">&gt; MOUNTING VOXEL CORE</div>
+  </div>
+</div>
+
+<header class="hud">
+  <a class="mark" href="#hero" id="hudMark">MOSPHATE_OS</a>
+  <div class="coords" aria-hidden="true">
+    <span>Y <b id="hudY">0000</b></span>
+    <span>PROG <b id="hudP">000%</b></span>
+    <span>CH <b id="hudC">01/08</b></span>
+  </div>
+  <div class="tog">
+    <button class="tbtn" id="sndBtn" aria-pressed="false" aria-label="Toggle sound">SND: OFF</button>
+    <button class="tbtn" id="motionBtn" aria-pressed="false" aria-label="Toggle reduced motion">MOTION: FULL</button>
+  </div>
+</header>
+
+<main>
+  <section id="hero" data-ch="0" aria-label="Hero">
+    <h1 class="sr h1fallback">MOSPHATE</h1>
+    <div class="wrap">
+      <div class="hero-in">
+        <div class="hero-copy">
+          <p class="hero-sub" id="heroSub"></p>
+          <p class="hero-text" id="heroText"></p>
+          <a class="btn" id="cta" href="#about"><span id="ctaLabel"></span><span aria-hidden="true">&darr;</span></a>
+        </div>
+        <div class="score notch" aria-live="off">
+          <div class="row"><span>HI</span><b id="hi">00000</b></div>
+          <div class="row"><span>SCORE</span><b id="sc">00000</b></div>
+          <div class="hint" id="hint">SPACE / TAP TO JUMP</div>
+        </div>
+      </div>
+    </div>
+    <div class="scrollcue" aria-hidden="true">SCROLL</div>
+  </section>
+
+  <section id="about" data-ch="1">
+    <div class="wire" style="top:12%;right:8%"><div><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="wire" style="top:62%;left:3%;width:60px;height:60px"><div><i></i><i></i><i></i><i></i><i></i><i></i></div></div>
+    <div class="wrap">
+      <div class="eyebrow">CH 02 // <b>THE STORY</b></div>
+      <h2 class="big split" id="aboutH"></h2>
+      <div class="pxwipe" id="wipe1"></div>
+      <div class="story" id="story"></div>
+    </div>
+  </section>
+
+  <section id="mascot" class="stage-sec" data-ch="2">
+    <div class="wrap">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow">CH 03 // <b>THE MASCOT</b></div>
+          <h2 class="big split" id="mascotH"></h2>
+        </div>
+        <p class="lead" id="mascotLead"></p>
+      </div>
+      <div class="stage-frame" id="mascotFrame">
+        <canvas id="mascotCanvas" aria-label="Interactive 3D mascot. Drag to rotate." role="img"></canvas>
+        <div class="reticle"></div>
+        <div class="media-pane" id="mascotMedia"></div>
+        <div class="corner tl">STUDIO 01 // <b id="mView">FRONT VIEW</b></div>
+        <div class="corner tr">DRAG = ORBIT<br>CTRL + WHEEL = ZOOM</div>
+        <div class="corner bl">VOXEL RES <b>22 &times; 21 &times; 6</b></div>
+        <div class="corner br" id="mSlot">MEDIA SLOT: PROCEDURAL</div>
+      </div>
+      <div class="controls" id="mascotCtl"></div>
+    </div>
+  </section>
+
+  <section id="packaging" class="stage-sec" data-ch="3">
+    <div class="wrap">
+      <div class="stage-head">
+        <div>
+          <div class="eyebrow">CH 04 // <b>THE BOX</b></div>
+          <h2 class="big split" id="packH"></h2>
+        </div>
+        <p class="lead" id="packLead"></p>
+      </div>
+      <div class="stage-frame" id="packFrame">
+        <canvas id="packCanvas" aria-label="Interactive 3D collector packaging. Drag to rotate." role="img"></canvas>
+        <div class="reticle"></div>
+        <div class="corner tl">VOID STAGE // <b id="pView">FRONT</b></div>
+        <div class="corner tr">DRAG = ORBIT<br>CTRL + WHEEL = ZOOM</div>
+        <div class="corner bl">STATE <b id="pState">SEALED</b></div>
+        <div class="corner br">MOCKUP: PROCEDURAL</div>
+      </div>
+      <div class="controls" id="packCtl"></div>
+    </div>
+  </section>
+
+  <section id="specs" data-ch="4">
+    <div class="wrap">
+      <div class="eyebrow">CH 05 // <b>SPEC MATRIX</b></div>
+      <h2 class="big split" id="specH"></h2>
+      <div class="blue" id="blue">
+        <div class="xh"></div><div class="xv"></div>
+        <div class="specgrid" id="specGrid"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="journey" data-ch="5">
+    <div class="j-top">
+      <div class="wrap">
+        <div class="eyebrow">CH 06 // <b>OUR JOURNEY</b></div>
+        <h2 class="big split" id="journeyH" style="font-size:clamp(30px,5vw,72px)"></h2>
+        <div class="j-prog"><div class="fill" id="jFill"></div><div class="j-nodes" id="jNodes"></div></div>
+      </div>
+    </div>
+    <div class="j-view" id="jView"><div class="j-track" id="jTrack"></div></div>
+  </section>
+
+  <section id="team" data-ch="6">
+    <div class="wrap">
+      <div class="eyebrow">CH 07 // <b>THE CREATORS</b></div>
+      <h2 class="big split" id="teamH"></h2>
+      <p class="lead" id="teamSub" style="margin-top:18px"></p>
+      <div class="teamgrid" id="teamGrid"></div>
+    </div>
+  </section>
+
+  <section id="finale" data-ch="7">
+    <div class="f-track" id="fTrack">
+      <div class="f-stick">
+        <h2 class="sr h1fallback" style="font-size:clamp(40px,12vw,150px)">MOSPHATE</h2>
+        <p class="f-line" id="fl1"></p>
+        <p class="f-tag" id="fl2"></p>
+      </div>
+    </div>
+    <footer class="foot">
+      <div class="wrap">
+        <div>
+          <h4>CONTACT</h4>
+          <div class="mail"><span id="mailTxt"></span><button class="btn ghost" id="mailCopy">COPY</button></div>
+        </div>
+        <div>
+          <h4>FOLLOW</h4>
+          <div class="socials" id="socials"></div>
+        </div>
+        <div>
+          <h4>RUN IT AGAIN</h4>
+          <button class="btn" id="replay">REPLAY RUN &uarr;</button>
+        </div>
+        <small>MOSPHATE &copy; <span id="yr"></span> // ALL PLACEHOLDERS ARE EDITABLE IN MOSPHATE_CONFIG</small>
+      </div>
+    </footer>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/MaskPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="js/config.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/voxel.js"></script>
+<script src="js/world.js"></script>
+<script src="js/stage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
