@@ -48,7 +48,7 @@ window.MOSPHATE_CONFIG = {
     heading: "PRODUCT SPECIFICATIONS",
     // ph:true marks a placeholder. Replace v and set ph:false when real data exists.
     rows: [
-      { k: "PRODUCT NAME",        v: "[MOSPHATE COLLECTIBLE EDITION — TBD]", ph: true },
+      { k: "PRODUCT NAME",        v: "[CHROME DINO]", ph: true },
       { k: "PRODUCT DESCRIPTION", v: "[Awaiting official product copy]", ph: true },
       { k: "DIMENSIONS",          v: "[__ mm × __ mm × __ mm — Placeholder]", ph: true },
       { k: "MATERIAL",            v: "[Primary & finish materials — Placeholder]", ph: true },
@@ -73,12 +73,15 @@ window.MOSPHATE_CONFIG = {
     heading: "THE MINDS BEHIND THE MASCOT.",
     sub: "Different minds. One vision. Infinite possibilities.",
     // Add, edit or remove objects. The grid adapts on its own.
-    members: [
-      { photo: "", name: "", role: "", desc: "" },
-      { photo: "", name: "", role: "", desc: "" },
-      { photo: "", name: "", role: "", desc: "" },
-      { photo: "", name: "", role: "", desc: "" }
-    ]
+   members: [
+  { photo: "assets/team/Jaswith.jpg", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
+  { photo: "assets/team/Madhav Srinivasan.jpg", name: "Madhav Srinivasan", role: "Big Brain", desc: "Thinks three steps ahead. If it's complicated, he's already solved it." },
+  { photo: "assets/team/Samarth patil.jpg", name: "Samarth Patil", role: "Certified Cool", desc: "Effortless vibes. Walks in and the whole room gets an upgrade." },
+  { photo: "assets/team/NS vivek.jpg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
+  { photo: "assets/team/Garimey.jpg", name: "Garimey", role: "Spark", desc: "Just for a sec" },
+  { photo: "assets/team/Vivek G.jpg", name: "Vivek G.", role: "Wildcard", desc: "Unpredictable in the best way. Shows up with the plot twist." }
+  { photo: "assets/team/Vivek G.jpg", name: "Kaivalya Vijay Gharge", role: "Cool Dude", desc: "Silent and cool ." }
+   ]
   },
 
   finale: { line: "THE GAME NEVER ENDS.", tagline: "STAY CONNECTED, STAY LIMITLESS." },
