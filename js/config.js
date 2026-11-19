@@ -80,7 +80,7 @@ window.MOSPHATE_CONFIG = {
   { photo: "assets/team/NS vivek.jpg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
   { photo: "assets/team/Garimey.jpg", name: "Garimey", role: "Spark", desc: "Just for a sec" },
   { photo: "assets/team/Vivek G.jpg", name: "Vivek G.", role: "Wildcard", desc: "Unpredictable in the best way. Shows up with the plot twist." }
-  { photo: "assets/team/Vivek G.jpg", name: "Kaivalya Vijay Gharge", role: "Cool Dude", desc: "Silent and cool ." }
+  { photo: "assets/team/Kaivalya Vijay Gharge.jpg", name: "Kaivalya Vijay Gharge", role: "Cool Dude", desc: "Silent and cool ." }
    ]
   },
 
