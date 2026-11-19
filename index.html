@@ -1549,17 +1549,27 @@ const Stages = (function () {
     files.forEach(f => exts.forEach(e => { const u = dir + f + e; if (out.indexOf(u) < 0) out.push(u); }));
     return out;
   }
+  const GH = (function () { const h = location.hostname, seg = location.pathname.split('/')[1]; return /\.github\.io$/.test(h) && seg ? { u: h.split('.')[0], r: seg } : null; })();
   document.querySelectorAll('.member').forEach((el, i) => {
     const mb = C.team.members[i]; if (!mb.photo && !mb.name) return;
-    const list = photoCandidates(mb.photo, mb.name);
+    let list = photoCandidates(mb.photo, mb.name);
+    if (GH) { /* backup routes straight from the repo, in case the Pages copy of a file is stale */
+      const first = list.slice(0, 12);
+      first.forEach(p => list.push('https://raw.githubusercontent.com/' + GH.u + '/' + GH.r + '/main/' + p));
+      first.forEach(p => list.push('https://cdn.jsdelivr.net/gh/' + GH.u + '/' + GH.r + '@main/' + p));
+    }
     (function next(k) {
-      if (k >= list.length) return;
+      if (k >= list.length) {
+        if (mb.photo) { const lab = el.querySelector('.avatar .lab'); if (lab) lab.innerHTML = 'PHOTO NOT FOUND<br>' + esc(mb.photo); }
+        return;
+      }
       const im = new Image(); im.alt = mb.name || '';
       im.onload = () => { const a = el.querySelector('.avatar'); a.querySelector('svg').remove(); a.querySelector('.scanl').remove(); a.querySelector('.lab').remove(); a.appendChild(im); };
       im.onerror = () => next(k + 1);
-      im.src = encodeURI(list[k]);
+      im.src = /^https?:/.test(list[k]) ? list[k].replace(/ /g, '%20') : encodeURI(list[k]);
     })(0);
   });
+
 
   document.querySelectorAll('.member').forEach(el => {
     el.addEventListener('pointermove', e => {
