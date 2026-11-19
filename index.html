@@ -478,13 +478,13 @@ window.MOSPHATE_CONFIG = {
     sub: "Different minds. One vision. Infinite possibilities.",
     // Add, edit or remove objects. The grid adapts on its own.
     members: [
-      { photo: "assets/team/Jaswith.jpg", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
-      { photo: "assets/team/Madhav Srinivasan.jpg", name: "Madhav Srinivasan", role: "Big Brain", desc: "Thinks three steps ahead. If it's complicated, he's already solved it." },
-      { photo: "assets/team/Samarth patil.jpg", name: "Samarth Patil", role: "Certified Cool", desc: "Effortless vibes. Walks in and the whole room gets an upgrade." },
-      { photo: "assets/team/NS vivek.jpg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
-      { photo: "assets/team/Garimey.jpg", name: "Garimey", role: "Extra Member", desc: "Part of the crew. Along for the ride." },
-      { photo: "assets/team/Vivek G.jpg", name: "Vivek G.", role: "Extra Member", desc: "Part of the crew. Along for the ride." },
-      { photo: "assets/team/Kaivalya Vijay Gharge.jpg", name: "Kaivalya Vijay Gharge", role: "Team Member", desc: "Part of the MOSPHATE crew." }
+      { photo: "assets/team/Jaswith.jpeg", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
+      { photo: "assets/team/Madhav Srinivasan.jpeg", name: "Madhav Srinivasan", role: "Big Brain", desc: "Thinks three steps ahead. If it's complicated, he's already solved it." },
+      { photo: "assets/team/Samarth patil.jpeg", name: "Samarth Patil", role: "Certified Cool", desc: "Effortless vibes. Walks in and the whole room gets an upgrade." },
+      { photo: "assets/team/NS vivek.jpeg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
+      { photo: "assets/team/Garimey.jpeg", name: "Garimey", role: "Spark", desc: "Just for a sec" },
+      { photo: "assets/team/Vivek G.jpeg", name: "Vivek G.", role: "Wildcard", desc: "Unpredictable in the best way. Shows up with the plot twist." },
+      { photo: "assets/team/Kaivalya Vijay Gharge.jpeg", name: "Kaivalya Vijay Gharge", role: "Cool Dude", desc: "Silent and cool ." }
     ]
   },
 
@@ -1537,11 +1537,30 @@ const Stages = (function () {
     '<div class="f">ROLE</div><div class="val">' + (m.role ? esc(m.role) : '<span style="color:var(--dim)">[ROLE / DESIGNATION]</span>') + '</div>' +
     '<div class="f">ABOUT</div><div class="val">' + (m.desc ? esc(m.desc) : '<span style="color:var(--dim)">[SHORT DESCRIPTION]</span>') + '</div></article>').join('');
   (function () { const n = C.team.members.length; $('teamGrid').style.setProperty('--cols', n <= 4 ? Math.max(1, n) : (n <= 6 ? 3 : 4)); })();
+  /* Photos: try the exact path first, then common extension / capitalisation variants,
+     so a .jpeg / .png / .JPG or differently-cased file name still loads. */
+  function photoCandidates(p, name) {
+    const raw = p || ('assets/team/' + name);
+    const m = raw.match(/^(.*?)(\.[A-Za-z0-9]+)?$/), base = m[1];
+    const dir = base.slice(0, base.lastIndexOf('/') + 1), file = base.slice(base.lastIndexOf('/') + 1);
+    const files = [file, file.toLowerCase(), file.replace(/ /g, '-'), file.replace(/ /g, '_'), file.replace(/ /g, '').toLowerCase()];
+    const exts = [m[2] || '', '.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG', '.WEBP', '.jfif'];
+    const out = [];
+    files.forEach(f => exts.forEach(e => { const u = dir + f + e; if (out.indexOf(u) < 0) out.push(u); }));
+    return out;
+  }
   document.querySelectorAll('.member').forEach((el, i) => {
-    const p = C.team.members[i].photo; if (!p) return;
-    const im = new Image(); im.alt = C.team.members[i].name || ''; im.src = p;
-    im.onload = () => { const a = el.querySelector('.avatar'); a.querySelector('svg').remove(); a.querySelector('.scanl').remove(); a.querySelector('.lab').remove(); a.appendChild(im); };
+    const mb = C.team.members[i]; if (!mb.photo && !mb.name) return;
+    const list = photoCandidates(mb.photo, mb.name);
+    (function next(k) {
+      if (k >= list.length) return;
+      const im = new Image(); im.alt = mb.name || '';
+      im.onload = () => { const a = el.querySelector('.avatar'); a.querySelector('svg').remove(); a.querySelector('.scanl').remove(); a.querySelector('.lab').remove(); a.appendChild(im); };
+      im.onerror = () => next(k + 1);
+      im.src = encodeURI(list[k]);
+    })(0);
   });
+
   document.querySelectorAll('.member').forEach(el => {
     el.addEventListener('pointermove', e => {
       if (App.reduced) return;
