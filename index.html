@@ -406,6 +406,10 @@ h2.big{font:800 clamp(34px,6.2vw,92px)/.95 var(--f-display);letter-spacing:-.025
    procedural 3D version automatically (no crashes, no 404 UI).
    ============================================================ */
 window.MOSPHATE_CONFIG = {
+  // GitHub repo that holds the /assets folder. Photos fall back to this repo if they are
+  // not found next to the page (for example when index.html is opened from a phone or a download).
+  repo: { owner: "Jaswith-beyond", name: "nitkdino", branch: "main" },
+
   brand: { name: "MOSPHATE", tagline: "STAY CONNECTED, STAY LIMITLESS." },
 
   hero: {
@@ -1549,14 +1553,18 @@ const Stages = (function () {
     files.forEach(f => exts.forEach(e => { const u = dir + f + e; if (out.indexOf(u) < 0) out.push(u); }));
     return out;
   }
-  const GH = (function () { const h = location.hostname, seg = location.pathname.split('/')[1]; return /\.github\.io$/.test(h) && seg ? { u: h.split('.')[0], r: seg } : null; })();
+  const GH = (function () {
+    if (C.repo && C.repo.owner && C.repo.name) return { u: C.repo.owner, r: C.repo.name, b: C.repo.branch || 'main' };
+    const h = location.hostname, seg = location.pathname.split('/')[1];
+    return /\.github\.io$/.test(h) && seg ? { u: h.split('.')[0], r: seg, b: 'main' } : null;
+  })();
   document.querySelectorAll('.member').forEach((el, i) => {
     const mb = C.team.members[i]; if (!mb.photo && !mb.name) return;
     let list = photoCandidates(mb.photo, mb.name);
     if (GH) { /* backup routes straight from the repo, in case the Pages copy of a file is stale */
       const first = list.slice(0, 12);
-      first.forEach(p => list.push('https://raw.githubusercontent.com/' + GH.u + '/' + GH.r + '/main/' + p));
-      first.forEach(p => list.push('https://cdn.jsdelivr.net/gh/' + GH.u + '/' + GH.r + '@main/' + p));
+      first.forEach(p => list.push('https://raw.githubusercontent.com/' + GH.u + '/' + GH.r + '/' + GH.b + '/' + p));
+      first.forEach(p => list.push('https://cdn.jsdelivr.net/gh/' + GH.u + '/' + GH.r + '@' + GH.b + '/' + p));
     }
     (function next(k) {
       if (k >= list.length) {
