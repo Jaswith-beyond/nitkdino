@@ -478,10 +478,10 @@ window.MOSPHATE_CONFIG = {
     sub: "Different minds. One vision. Infinite possibilities.",
     // Add, edit or remove objects. The grid adapts on its own.
     members: [
-      { photo: "assets/team/Jaswith.jpeg", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
+      { photo: "assets/team/Jaswith.png", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
       { photo: "assets/team/Madhav Srinivasan.jpeg", name: "Madhav Srinivasan", role: "Big Brain", desc: "Thinks three steps ahead. If it's complicated, he's already solved it." },
       { photo: "assets/team/Samarth patil.jpeg", name: "Samarth Patil", role: "Certified Cool", desc: "Effortless vibes. Walks in and the whole room gets an upgrade." },
-      { photo: "assets/team/NS vivek.jpeg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
+      { photo: "assets/team/NS vivek .jpeg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
       { photo: "assets/team/Garimey.jpeg", name: "Garimey", role: "Spark", desc: "Just for a sec" },
       { photo: "assets/team/Vivek G.jpeg", name: "Vivek G.", role: "Wildcard", desc: "Unpredictable in the best way. Shows up with the plot twist." },
       { photo: "assets/team/Kaivalya Vijay Gharge.jpeg", name: "Kaivalya Vijay Gharge", role: "Cool Dude", desc: "Silent and cool ." }
@@ -1543,7 +1543,7 @@ const Stages = (function () {
     const raw = p || ('assets/team/' + name);
     const m = raw.match(/^(.*?)(\.[A-Za-z0-9]+)?$/), base = m[1];
     const dir = base.slice(0, base.lastIndexOf('/') + 1), file = base.slice(base.lastIndexOf('/') + 1);
-    const files = [file, file.toLowerCase(), file.replace(/ /g, '-'), file.replace(/ /g, '_'), file.replace(/ /g, '').toLowerCase()];
+    const files = [file, file + ' ', file.trim(), file.toLowerCase(), file.replace(/ /g, '-'), file.replace(/ /g, '_'), file.replace(/ /g, '').toLowerCase()];
     const exts = [m[2] || '', '.jpg', '.jpeg', '.png', '.webp', '.JPG', '.JPEG', '.PNG', '.WEBP', '.jfif'];
     const out = [];
     files.forEach(f => exts.forEach(e => { const u = dir + f + e; if (out.indexOf(u) < 0) out.push(u); }));
