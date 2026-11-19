@@ -74,13 +74,13 @@ window.MOSPHATE_CONFIG = {
     sub: "Different minds. One vision. Infinite possibilities.",
     // Add, edit or remove objects. The grid adapts on its own.
    members: [
-  { photo: "assets/team/Jaswith.jpg", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
-  { photo: "assets/team/Madhav Srinivasan.jpg", name: "Madhav Srinivasan", role: "Big Brain", desc: "Thinks three steps ahead. If it's complicated, he's already solved it." },
-  { photo: "assets/team/Samarth patil.jpg", name: "Samarth Patil", role: "Certified Cool", desc: "Effortless vibes. Walks in and the whole room gets an upgrade." },
-  { photo: "assets/team/NS vivek.jpg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
-  { photo: "assets/team/Garimey.jpg", name: "Garimey", role: "Spark", desc: "Just for a sec" },
-  { photo: "assets/team/Vivek G.jpg", name: "Vivek G.", role: "Wildcard", desc: "Unpredictable in the best way. Shows up with the plot twist." }
-  { photo: "assets/team/Kaivalya Vijay Gharge.jpg", name: "Kaivalya Vijay Gharge", role: "Cool Dude", desc: "Silent and cool ." }
+  { photo: "assets/team/Jaswith.jpeg", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
+  { photo: "assets/team/Madhav Srinivasan.jpeg", name: "Madhav Srinivasan", role: "Big Brain", desc: "Thinks three steps ahead. If it's complicated, he's already solved it." },
+  { photo: "assets/team/Samarth patil.jpeg", name: "Samarth Patil", role: "Certified Cool", desc: "Effortless vibes. Walks in and the whole room gets an upgrade." },
+  { photo: "assets/team/NS vivek.jpeg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
+  { photo: "assets/team/Garimey.jpeg", name: "Garimey", role: "Spark", desc: "Just for a sec" },
+  { photo: "assets/team/Vivek G.jpeg", name: "Vivek G.", role: "Wildcard", desc: "Unpredictable in the best way. Shows up with the plot twist." }
+  { photo: "assets/team/Kaivalya Vijay Gharge.jpeg", name: "Kaivalya Vijay Gharge", role: "Cool Dude", desc: "Silent and cool ." }
    ]
   },
 
