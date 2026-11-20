@@ -159,6 +159,10 @@ h2.big{font:800 clamp(34px,6.2vw,92px)/.95 var(--f-display);letter-spacing:-.025
 #arStage{position:relative;aspect-ratio:4/3;max-height:58vh;width:100%;margin-top:14px;background:radial-gradient(ellipse at 50% 70%,#1b1c1f,#050505 70%);border:1px solid var(--line)}
 #arStage model-viewer{position:absolute;inset:0;width:100%;height:100%;--poster-color:transparent}
 .ar-msg{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;font:9px/1.8 var(--f-pix);letter-spacing:.1em;color:var(--silver);pointer-events:none}
+#arStage>video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scaleX(-1);background:#000}
+.ar-photo{position:absolute;inset:0;z-index:5;display:grid;grid-template-rows:1fr auto;background:#000;min-height:0}
+.ar-photo img{width:100%;height:100%;min-height:0;object-fit:contain}
+.ar-photo-bar{display:flex;gap:12px;justify-content:center;padding:12px;flex-wrap:wrap}
 .ar-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:16px}
 .ar-actions .btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
 .ar-hint{color:var(--silver);font-size:15px;flex:1;min-width:200px}
@@ -424,14 +428,16 @@ h2.big{font:800 clamp(34px,6.2vw,92px)/.95 var(--f-display);letter-spacing:-.025
 <div class="ar-modal" id="arModal" hidden role="dialog" aria-modal="true" aria-labelledby="arTitle">
   <div class="ar-card notch">
     <div class="ar-head"><span class="eyebrow">AR // <b id="arTitle">PLACE IT ON YOUR DESK</b></span><button class="btn ghost" id="arClose" aria-label="Close AR">CLOSE &times;</button></div>
-    <div id="arStage"><div class="ar-msg" id="arMsg">LOADING 3D MODEL...</div></div>
+    <div id="arStage"><div class="ar-msg" id="arMsg">LOADING 3D MODEL...</div><div class="ar-photo" id="arPhoto" hidden><img id="arPhotoImg" alt="Your photo with the MOSPHATE dino"><div class="ar-photo-bar"><a class="btn" id="arSave" download="mosphate-dino.png">SAVE PHOTO</a><button class="btn ghost" id="arPhotoClose">BACK</button></div></div></div>
     <div class="ar-actions">
       <button class="btn" id="arGo" disabled>PLACE ON MY DESK</button>
+      <button class="btn ghost" id="arCam">USE MY WEBCAM</button>
+      <button class="btn ghost" id="arSnap" hidden>TAKE PHOTO</button>
       <span class="ar-hint" id="arHint"></span>
     </div>
     <div class="ar-desktop" id="arDesk" hidden>
       <div class="ar-qr" id="arQR"></div>
-      <p class="ar-hint" style="margin:0">AR needs a phone or tablet. Scan this code with your phone to open this page there. The AR view will open straight away.</p>
+      <p class="ar-hint" style="margin:0">Real AR, where the dino sits on your desk, needs a phone or tablet. Scan this code with your phone to open it there. On a laptop, use the webcam button above to see the dino floating in your room.</p>
     </div>
   </div>
 </div>
@@ -1848,6 +1854,7 @@ const Stages = (function () {
     loadViewer().then(arBuild).catch(() => arSay('COULD NOT LOAD THE AR VIEWER. CHECK YOUR CONNECTION.'));
   }
   function closeAR() {
+    if (typeof camStop === 'function') { camStop(); arPhoto.hidden = true; }
     arModal.hidden = true; document.body.style.overflow = '';
     try { if (location.hash === '#ar') history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
   }
@@ -1855,6 +1862,51 @@ const Stages = (function () {
   $('arClose').addEventListener('click', closeAR);
   arModal.addEventListener('pointerdown', e => { if (e.target === arModal) closeAR(); });
   addEventListener('keydown', e => { if (e.key === 'Escape' && !arModal.hidden) closeAR(); });
+
+  /* ---------- webcam mode (laptops): camera feed behind the 3D dino, plus a photo button ---------- */
+  let camStream = null, camVid = null;
+  const arCam = $('arCam'), arSnap = $('arSnap'), arPhoto = $('arPhoto');
+  arCam.hidden = !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia);
+  function camStop() {
+    if (camStream) { camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+    if (camVid) { camVid.remove(); camVid = null; }
+    arCam.textContent = 'USE MY WEBCAM'; arSnap.hidden = true;
+    if (arMV) arMV.setAttribute('auto-rotate', '');
+  }
+  async function camStart() {
+    if (!arMV) { arSay('WAIT FOR THE 3D MODEL TO LOAD'); return; }
+    try {
+      camStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false });
+    } catch (e) {
+      arSay(e && e.name === 'NotAllowedError' ? 'CAMERA BLOCKED. CLICK THE LOCK ICON BY THE ADDRESS, ALLOW CAMERA, THEN TRY AGAIN.' : 'NO CAMERA FOUND OR IT IS IN USE BY ANOTHER APP.');
+      setTimeout(() => { if (!camStream) arSay(''); }, 6000);
+      return;
+    }
+    camVid = document.createElement('video'); camVid.autoplay = true; camVid.muted = true; camVid.playsInline = true; camVid.setAttribute('aria-label', 'Your webcam');
+    camVid.srcObject = camStream; arStage.insertBefore(camVid, arMV);
+    try { await camVid.play(); } catch (e) {}
+    arMV.removeAttribute('auto-rotate');
+    arCam.textContent = 'STOP WEBCAM'; arSnap.hidden = false; arSay('');
+  }
+  arCam.addEventListener('click', () => { if (camStream) camStop(); else camStart(); });
+  arSnap.addEventListener('click', async () => {
+    if (!camVid || !arMV) return;
+    try {
+      const W = arStage.clientWidth, H = arStage.clientHeight, S = Math.min(2, window.devicePixelRatio || 1);
+      const cv = document.createElement('canvas'); cv.width = Math.round(W * S); cv.height = Math.round(H * S);
+      const ctx = cv.getContext('2d');
+      const vw = camVid.videoWidth || W, vh = camVid.videoHeight || H, k = Math.max(cv.width / vw, cv.height / vh);
+      ctx.save(); ctx.translate(cv.width, 0); ctx.scale(-1, 1);                      /* mirrored, same as the preview */
+      ctx.drawImage(camVid, (cv.width - vw * k) / 2, (cv.height - vh * k) / 2, vw * k, vh * k); ctx.restore();
+      const blob = await arMV.toBlob({ mimeType: 'image/png', idealAspect: false });
+      const bmp = await createImageBitmap(blob); ctx.drawImage(bmp, 0, 0, cv.width, cv.height);
+      cv.toBlob(out => {
+        const url = URL.createObjectURL(out);
+        $('arPhotoImg').src = url; $('arSave').href = url; arPhoto.hidden = false; SFX.chime();
+      }, 'image/png');
+    } catch (e) { arSay('COULD NOT TAKE THE PHOTO'); setTimeout(() => arSay(''), 3000); }
+  });
+  $('arPhotoClose').addEventListener('click', () => { arPhoto.hidden = true; });
   const arBtn = btn('[AR: PLACE ON DESK]', openAR);
   arBtn.classList.remove('ghost'); arBtn.classList.add('btn'); arBtn.style.cssText = 'padding:13px 14px;font-size:9px;box-shadow:3px 3px 0 var(--dim)';
   $('mascotCtl').appendChild(arBtn);
