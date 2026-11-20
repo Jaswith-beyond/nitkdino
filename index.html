@@ -545,8 +545,9 @@ window.MOSPHATE_CONFIG = {
     heading: "THE MINDS BEHIND THE MASCOT.",
     sub: "Different minds. One vision. Infinite possibilities.",
     // Add, edit or remove objects. The grid adapts on its own.
+    // Optional focus: "x% y%" keeps that part of the photo in view when it is cropped to the card (e.g. a face on the right = "80% 30%").
     members: [
-      { photo: "assets/team/Jaswith.png", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
+      { photo: "assets/team/Jaswith.jpeg", focus: "78% 30%", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
       { photo: "assets/team/Madhav Srinivasan.jpeg", name: "Madhav Srinivasan", role: "Big Brain", desc: "Thinks three steps ahead. If it's complicated, he's already solved it." },
       { photo: "assets/team/Samarth patil.jpeg", name: "Samarth Patil", role: "Certified Cool", desc: "Effortless vibes. Walks in and the whole room gets an upgrade." },
       { photo: "assets/team/NS vivek .jpeg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
@@ -1635,7 +1636,7 @@ const Stages = (function () {
         if (mb.photo) { const lab = el.querySelector('.avatar .lab'); if (lab) lab.innerHTML = 'PHOTO NOT FOUND<br>' + esc(mb.photo); }
         return;
       }
-      const im = new Image(); im.alt = mb.name || '';
+      const im = new Image(); im.alt = mb.name || ''; if (mb.focus) im.style.objectPosition = mb.focus;
       im.onload = () => { const a = el.querySelector('.avatar'); a.querySelector('svg').remove(); a.querySelector('.scanl').remove(); a.querySelector('.lab').remove(); a.appendChild(im); };
       im.onerror = () => next(k + 1);
       im.src = /^https?:/.test(list[k]) ? list[k].replace(/ /g, '%20') : encodeURI(list[k]);
