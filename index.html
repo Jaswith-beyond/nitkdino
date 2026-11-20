@@ -1829,7 +1829,7 @@ const Stages = (function () {
   function arBuild() {
     if (arMV) { arCheck(); return; }
     const mv = document.createElement('model-viewer');
-    const set = { src: AR.model, alt: 'The MOSPHATE Chrome Dino collectible as a 3D model', ar: '', 'ar-modes': 'webxr scene-viewer quick-look', 'ar-scale': 'fixed',
+    const set = { src: AR.model, alt: 'The MOSPHATE Chrome Dino collectible as a 3D model', ar: '', 'ar-modes': 'scene-viewer webxr quick-look', 'ar-scale': 'fixed',
       'camera-controls': '', 'auto-rotate': '', 'shadow-intensity': '1', exposure: '1.1', 'environment-image': 'neutral', 'interaction-prompt': 'none', 'touch-action': 'pan-y' };
     Object.keys(set).forEach(k => mv.setAttribute(k, set[k]));
     mv.addEventListener('load', () => { arSay(''); arCheck(); setTimeout(arCheck, 700); });
