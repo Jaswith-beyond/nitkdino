@@ -5,7 +5,7 @@
    procedural 3D version automatically (no crashes, no 404 UI).
    ============================================================ */
 window.MOSPHATE_CONFIG = {
-  brand: { name: "MOSPHATE", tagline: "STAY CONNECTED, STAY LIMITLESS." },
+  brand: { name: "CHROME DINO", tagline: "STAY CONNECTED, STAY LIMITLESS." },
 
   hero: {
     sub: "BEYOND THE PIXELS.",
@@ -56,7 +56,7 @@ window.MOSPHATE_CONFIG = {
     // ph:true marks a placeholder. Replace v and set ph:false when real data exists.
     // ph:true marks a placeholder (dashed TBD tag). v may be a string or an array (shown as a list).
     rows: [
-      { k: "PRODUCT NAME",        v: "MOSPHATE – Chrome Dino Collectible Edition" },
+      { k: "PRODUCT NAME",        v: "Chrome Dino Collectible Edition" },
       { k: "PRODUCT DESCRIPTION", v: "A Chrome Dino-inspired collectible product that combines retro pixel aesthetics with a creative MOSFET-themed design. Designed as a unique desk collectible with distinctive packaging." },
       { k: "DIMENSIONS",          v: "60 mm × 60 mm × 60 mm" },
       { k: "MATERIAL",            v: "3D-printed PLA / Acrylic / Cardboard packaging" },
@@ -77,7 +77,7 @@ window.MOSPHATE_CONFIG = {
     sub: "Different minds. One vision. Infinite possibilities.",
     // Add, edit or remove objects. The grid adapts on its own.
     members: [
-      { photo: "assets/team/Jaswith.png", name: "Jaswith", role: "Team Leader", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
+      { photo: "assets/team/Jaswith.jpeg", name: "Jaswith", role: "Mr. Captain", desc: "Main character energy. Holds the vision together and keeps the squad moving." },
       { photo: "assets/team/Madhav Srinivasan.jpeg", name: "Madhav Srinivasan", role: "Big Brain", desc: "Thinks three steps ahead. If it's complicated, he's already solved it." },
       { photo: "assets/team/Samarth patil.jpeg", name: "Samarth Patil", role: "Certified Cool", desc: "Effortless vibes. Walks in and the whole room gets an upgrade." },
       { photo: "assets/team/NS vivek .jpeg", name: "NS Vivek", role: "Ultimate Supporter", desc: "Always has the squad's back. The reason things actually get done." },
